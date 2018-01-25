@@ -25,6 +25,17 @@ function shuffle(array) {
     return array;
 }
 
+function handleMouseClick(obj) {
+
+   //alert(obj.className);
+
+   if (obj.className === 'card') {
+      obj.className = 'card match'; // show card
+   }
+   else {
+     obj.className = 'card'; // hide card
+   }
+}
 
 /*
  * set up the event listener for a card. If a card is clicked:
