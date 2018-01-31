@@ -1,7 +1,55 @@
-/*
- * Create a list that holds all of your cards
- */
+let cardStyles = ['fa fa-diamond', 'fa fa-paper-plane-o', 'fa fa-anchor', 'fa fa-bolt', 'fa fa-cube', 'fa fa-anchor', 'fa fa-leaf',
+'fa fa-bicycle', 'fa fa-diamond', 'fa fa-bomb', 'fa fa-leaf', 'fa fa-bomb', 'fa fa-bolt', 'fa fa-bicycle', 'fa fa-paper-plane-o', 'fa fa-cube'];
 
+
+let openedCard = null; // initialize this to null
+
+function handleMouseClick(selectedCard) {
+	if (selectedCard.className === "card") {
+    selectedCard.className = "card open show";
+     }
+		// if a card was selected before
+		if (openedCard != null) {
+			// if cards match
+			if (openedCard.firstChild.className === selectedCard.firstChild.className)	{
+				// display matched cards
+				selectedCard.className = "card match";
+        openedCard.className = "card match";
+			}
+			// if cards do not match
+			else {
+				let prevCard = openedCard;
+				window.setTimeout(function() { closeCards(selectedCard, prevCard); }, 500);
+			}
+			// reset opened card variable to null
+			openedCard = null;
+		} // 'openedCard == null' means there was no previously opened card
+		else {
+			openedCard = selectedCard;
+		}
+	}
+
+function closeCards(selectedCard, prevCard) {
+	// close the selected card
+	selectedCard.className = "card";
+	// close the previously opened card
+	prevCard.className = "card";
+}
+
+
+function shuffleCards(array) {
+	cardStyles = shuffle(array);
+
+    const cards = document.getElementsByClassName("card");
+    for (let i = 0; i < cards.length; i++) {
+        cards[i].firstChild.setAttribute("class", cardStyles[i]);
+    }
+}
+
+
+function initGame() {
+	shuffleCards(cardStyles);
+}
 
 /*
  * Display the cards on the page
@@ -25,17 +73,7 @@ function shuffle(array) {
     return array;
 }
 
-function handleMouseClick(obj) {
 
-   //alert(obj.className);
-
-   if (obj.className === 'card') {
-      obj.className = 'card match'; // show card
-   }
-   else {
-     obj.className = 'card'; // hide card
-   }
-}
 
 /*
  * set up the event listener for a card. If a card is clicked:
@@ -47,3 +85,6 @@ function handleMouseClick(obj) {
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
+
+ // initialize the game
+ initGame();
