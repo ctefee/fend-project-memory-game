@@ -7,6 +7,7 @@ let openedCard = null; // initialize this to null
 let timer;
 let matchCounter;
 
+
 function handleMouseClick(selectedCard) {
 
   document.getElementsByClassName('moves')[0].innerHTML = parseInt(document.getElementsByClassName('moves')[0].innerHTML) + 1;
@@ -26,9 +27,9 @@ function handleMouseClick(selectedCard) {
       // display matched cards
       selectedCard.className = "card match";
       openedCard.className = "card match";
-      matchCounter +=1;
+      matchCounter += 1;
 
-      if(matchCounter >= 8) {
+      if (matchCounter >= 8) {
         alert('Game finished');
         clearInterval(timer);
       }
@@ -56,6 +57,11 @@ function closeCards(selectedCard, prevCard) {
   prevCard.className = "card";
 }
 
+function reduceStars() {
+  const stars = document.getElementsByClassName('stars')[0];
+  const starHTML = '<li><i class="fa fa-star"></i></li>';
+  stars.innerHTML = starHTML.repeat(stars.children.length - 1);
+}
 
 function shuffleCards(array) {
   cardStyles = shuffle(array);
@@ -66,11 +72,13 @@ function shuffleCards(array) {
   }
 }
 
-
 function initGame() {
   shuffleCards(cardStyles);
-}
 
+  timer = setInterval(function() {
+    document.getElementsByClassName('timer')[0].innerHTML = parseInt(document.getElementsByClassName('timer')[0].innerHTML) + 1;
+  }, 1000);
+}
 
 function shuffle(array) {
   var currentIndex = array.length,
@@ -86,6 +94,5 @@ function shuffle(array) {
 
   return array;
 }
-
 
 initGame();
