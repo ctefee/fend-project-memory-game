@@ -5,7 +5,7 @@ let cardStyles = ['fa fa-diamond', 'fa fa-paper-plane-o', 'fa fa-anchor', 'fa fa
 
 let openedCard = null; // initialize this to null
 let timer;
-let matchCounter;
+let matchCounter = 0;
 
 
 function handleMouseClick(selectedCard) {
@@ -30,10 +30,11 @@ function handleMouseClick(selectedCard) {
       matchCounter += 1;
 
       if (matchCounter >= 8) {
-        alert('Game finished');
+        showModal();
         clearInterval(timer);
       }
       console.log(matchCounter);
+
     }
     // if cards do not match
     else {
@@ -80,6 +81,12 @@ function initGame() {
   }, 1000);
 }
 
+function showModal() {
+	let modal = document.getElementsByClassName("modal")[0];
+	modal.innerHTML = "Congratulations! You won!<br><br>Your final score: " + document.getElementsByClassName('moves')[0].innerHTML;
+	modal.className = "modal show";
+}
+
 function shuffle(array) {
   var currentIndex = array.length,
     temporaryValue, randomIndex;
@@ -94,5 +101,6 @@ function shuffle(array) {
 
   return array;
 }
+
 
 initGame();

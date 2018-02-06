@@ -82,6 +82,27 @@ h1 {
 }
 
 /*
+ * Styles for modal
+ */
+
+.modal {
+    width: 300px;
+    height: 300px;
+    padding: 30px;
+    font-size: 1.5em;
+    position: fixed;
+    z-index: 1;
+    background-color: #FFFFFF;
+    text-align: center;
+}
+.modal.show {
+    display: block;
+}
+.modal.hide {
+    display: none;
+}
+
+/*
  * Styles for the Score Panel
  */
 
