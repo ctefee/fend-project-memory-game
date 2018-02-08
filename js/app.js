@@ -1,27 +1,49 @@
+
+
 let cardStyles = ['fa fa-diamond', 'fa fa-paper-plane-o', 'fa fa-anchor', 'fa fa-bolt', 'fa fa-cube', 'fa fa-anchor', 'fa fa-leaf',
   'fa fa-bicycle', 'fa fa-diamond', 'fa fa-bomb', 'fa fa-leaf', 'fa fa-bomb', 'fa fa-bolt', 'fa fa-bicycle', 'fa fa-paper-plane-o', 'fa fa-cube'
 ];
 
 
-let openedCard = null; // initialize this to null
-let timer;
+let openedCard = null;
+let timer = null;
 let matchCounter = 0;
+let gameOver = false;
 
+/**
+@description - handles the mouse click on the card.
+Keeps track of the opened and matched cards.
+Shows and closes the card symbols.
+Shows the modal popup when the game is finished.
 
+@param {string} selectedCard - The card selected by a mouse click
+*/
 function handleMouseClick(selectedCard) {
-
-  document.getElementsByClassName('moves')[0].innerHTML = parseInt(document.getElementsByClassName('moves')[0].innerHTML) + 1;
-  let moves = parseInt(document.getElementsByClassName('moves')[0].innerHTML);
-
-  if (moves === 5 || moves === 20) {
-    reduceStars();
+  if (openedCard === selectedCard || gameOver || selectedCard.className === "card match") {
+     return;
   }
+
+    // start timer if it has not been started
+  if (timer == null) {
+     timer = setInterval(function() {
+        document.getElementsByClassName('timer')[0].innerHTML = parseInt(document.getElementsByClassName('timer')[0].innerHTML) + 1;
+     }, 1000);
+  }
+
 
   if (selectedCard.className === "card") {
     selectedCard.className = "card open show";
   }
   // if a card was selected before
   if (openedCard != null) {
+
+    document.getElementsByClassName('moves')[0].innerHTML = parseInt(document.getElementsByClassName('moves')[0].innerHTML) + 1;
+    let moves = parseInt(document.getElementsByClassName('moves')[0].innerHTML);
+    if (moves === 5 || moves === 20) {
+      reduceStars();
+    }
+
+
     // if cards match
     if (openedCard.firstChild.className === selectedCard.firstChild.className) {
       // display matched cards
@@ -31,6 +53,7 @@ function handleMouseClick(selectedCard) {
 
       if (matchCounter >= 8) {
         showModal();
+        gameOver = true;
         clearInterval(timer);
       }
       console.log(matchCounter);
@@ -51,6 +74,8 @@ function handleMouseClick(selectedCard) {
   }
 }
 
+
+// closes the card symbol
 function closeCards(selectedCard, prevCard) {
   // close the selected card
   selectedCard.className = "card";
@@ -58,12 +83,19 @@ function closeCards(selectedCard, prevCard) {
   prevCard.className = "card";
 }
 
+
+// reduces the number of stars
 function reduceStars() {
   const stars = document.getElementsByClassName('stars')[0];
+  if (stars.children.length == 0) {
+      return;
+  }
   const starHTML = '<li><i class="fa fa-star"></i></li>';
   stars.innerHTML = starHTML.repeat(stars.children.length - 1);
 }
 
+
+// shuffles the cards
 function shuffleCards(array) {
   cardStyles = shuffle(array);
 
@@ -73,19 +105,21 @@ function shuffleCards(array) {
   }
 }
 
+
+// initializes the game
 function initGame() {
   shuffleCards(cardStyles);
 
-  timer = setInterval(function() {
-    document.getElementsByClassName('timer')[0].innerHTML = parseInt(document.getElementsByClassName('timer')[0].innerHTML) + 1;
-  }, 1000);
 }
 
+
+// shows the modal popup
 function showModal() {
 	let modal = document.getElementsByClassName("modal")[0];
-	modal.innerHTML = "Congratulations! You won!<br><br>Your final score: " + document.getElementsByClassName('moves')[0].innerHTML;
+	modal.innerHTML = "Congratulations! <br><br>You got " + (document.getElementsByClassName('stars')[0].children.length) + " stars with " + document.getElementsByClassName('moves')[0].innerHTML + " moves, after " + document.getElementsByClassName('timer')[0].innerHTML + " seconds. <br><input type='button' onclick=\"window.location='index.html'\" value='Play again' >";
 	modal.className = "modal show";
 }
+
 
 function shuffle(array) {
   var currentIndex = array.length,
