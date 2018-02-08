@@ -11,6 +11,4 @@ The game board consists of sixteen cards arranged randomly in a grid. The deck i
 - If the cards match, both cards stay flipped over.
 - If the cards do not match, both cards are returned to their initial hidden state.
 
-The game ends once all cards have been correctly matched.
-
-Goodluck! 
+The game ends once all cards have been correctly matched!
